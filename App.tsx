@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import SplashScreen from 'react-native-splash-screen';
 import { CartScreen, getCartScreenOptions } from './src/screens/cart-screen';
 import { MenuScreen, getMenuScreenOptions } from './src/screens/menu-screen';
 import { Icon } from './src/ui/icon';
@@ -17,6 +19,10 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const cartCount = useCartStore(selectCartCount);
   const place = usePlaceStore(selectPlace);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   const getMainRoutes = () => {
     return (

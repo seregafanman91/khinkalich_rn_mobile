@@ -43,6 +43,7 @@ export const ProductCard: FC<Props> = ({
   const handleBuyPress = () => {
     haptic('impactHeavy');
     onBuyPress(id, count);
+    onClosed();
   };
 
   const handleBottomSheetModalChange = (index: number) => {
@@ -80,29 +81,6 @@ export const ProductCard: FC<Props> = ({
       </SafeAreaView>
     </BottomSheetModal>
   );
-
-  // return (
-  //   <Modalize
-  //     onClosed={onClosed}
-  //     withHandle={false}
-  //     FooterComponent={
-
-  //     }
-  //     modalStyle={styles.modalStyle}
-  //     ref={modalizeRef}
-  //   >
-  //     <Container style={styles.wrapper}>
-  //       {/*<DownButton onPress={handleDownButtonPress} style={styles.downButton} />*/}
-  //       <Image resizeMode="contain" style={styles.img} source={img} />
-  //       <Text style={styles.name}>{name}</Text>
-  //       <Text style={styles.description}>{description}</Text>
-  //       <View style={styles.counterWrapper}>
-  //         <Text style={styles.weight}>{weight}</Text>
-  //         <Counter size="md" value={count} onChange={handleCounterChange} />
-  //       </View>
-  //     </Container>
-  //   </Modalize>
-  // );
 };
 
 const styles = StyleSheet.create({

@@ -3,7 +3,7 @@ import { BlurView } from '@react-native-community/blur';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Container } from '../../../components/container';
 import { Button } from '../../../ui/button';
-import { selectCartChange, useCartStore } from '../../../modules/cart';
+import { selectCartChange, selectCartCount, useCartStore } from '../../../modules/cart';
 import { ProductCardSmall } from '../../../modules/product';
 import { COLORS } from '../../../constants/colors';
 import { getFormatPrice } from '../../../utils/getFormatPrice';
@@ -14,6 +14,7 @@ import { useCartProducts } from '../hooks/useCartProducts';
 export const CartScreenList = () => {
   const changeCart = useCartStore(selectCartChange);
   const data = useCartProducts();
+  const cartCount = useCartStore(selectCartCount);
 
   const totalSum = useMemo(() => {
     return data.reduce((acc, cur) => acc + cur.count * cur.data.price, 0);
@@ -26,11 +27,11 @@ export const CartScreenList = () => {
     const lastDigit = getLastDigit(len);
 
     if (lastDigit === 1) {
-      return `${len} товар на ${displayTotalSum}`;
+      return `${cartCount} товар на ${displayTotalSum}`;
     } else if (lastDigit > 4) {
-      return `${len} товаров на ${displayTotalSum}`;
+      return `${cartCount} товаров на ${displayTotalSum}`;
     } else {
-      return `${len} товара на ${displayTotalSum}`;
+      return `${cartCount} товара на ${displayTotalSum}`;
     }
   };
 
@@ -40,15 +41,15 @@ export const CartScreenList = () => {
         <Container style={styles.header}>
           <Text style={styles.headerText}>{getCountOfProductsAndSum()}</Text>
         </Container>
-        {data.map(({ data, count }, index, arr) => {
+        {data.map(({ data: dataItem, count }, index, arr) => {
           const isLast = index === arr.length - 1;
 
           return (
             <ProductCardSmall
               style={isLast ? styles.lastCart : undefined}
               hasBorder={!isLast}
-              key={data.id}
-              data={data}
+              key={dataItem.id}
+              data={dataItem}
               count={count}
               onCountChange={changeCart}
             />
