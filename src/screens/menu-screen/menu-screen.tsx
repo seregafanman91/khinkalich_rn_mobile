@@ -1,19 +1,23 @@
 import React, { useCallback } from 'react';
 import { ListRenderItemInfo } from '@react-native/virtualized-lists/Lists/VirtualizedList';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
 import { SearchButton } from '../../components/search-button';
-import { KhinIcon } from '../../ui/custom-icons/KhinIcon';
-import { CityButton } from '../../modules/app';
 import { selectCartInc, useCartStore } from '../../modules/cart';
+import { CityButton } from '../../modules/place';
 import { Product, ProductPreviewCard, useGetProducts } from '../../modules/product';
 import { COLORS } from '../../constants/colors';
 import { MAIN_INDENT } from '../../constants/layout';
+import { useCurrentCity } from '../../hooks/useCurrentCity';
 
 const onKeyExtractor = (item: Product) => item.id;
 
 export const MenuScreen = () => {
-  const { data } = useGetProducts();
+  const navigator = useNavigation<any>();
   const incCart = useCartStore(selectCartInc);
+  const currentCity = useCurrentCity();
+
+  const { data } = useGetProducts();
 
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<Product>) => {
@@ -22,34 +26,42 @@ export const MenuScreen = () => {
     [incCart]
   );
 
+  const handleCityButtonPress = useCallback(() => {
+    navigator.push('edit-place');
+  }, [navigator]);
+
   return (
-    <View style={styles.wrapper}>
+    <SafeAreaView style={styles.wrapper}>
+      <View style={styles.header}>
+        {currentCity && (
+          <CityButton
+            city={currentCity}
+            onPress={handleCityButtonPress}
+            style={styles.headerLeft}
+          />
+        )}
+        <SearchButton style={styles.headerRight} />
+      </View>
       <FlatList keyExtractor={onKeyExtractor} data={data} renderItem={renderItem} />
-    </View>
+    </SafeAreaView>
   );
 };
 
-export const getMenuScreenOptions = () => ({
-  headerTitle: '',
-  headerLeft: () => <CityButton onPress={() => {}} style={styles.headerLeft} />,
-  headerRight: () => <SearchButton style={styles.headerRight} />,
-  tabBarIcon: ({ color }: { color: string }) => <KhinIcon color={color} />,
-  headerStyle: {
-    shadowColor: 'transparent',
-  },
-  tabBarActiveTintColor: COLORS.main,
-});
-
 const styles = StyleSheet.create({
-  productList: {},
-  wrapper: {
-    flex: 1,
-    backgroundColor: COLORS.backgroundPrimary,
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
   },
   headerLeft: {
     marginLeft: MAIN_INDENT,
   },
   headerRight: {
     marginRight: MAIN_INDENT,
+  },
+  wrapper: {
+    flex: 1,
+    backgroundColor: COLORS.backgroundPrimary,
   },
 });

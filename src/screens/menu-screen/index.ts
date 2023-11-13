@@ -1,1 +1,1 @@
-export { MenuScreen, getMenuScreenOptions } from './menu-screen';
+export { MenuScreen } from './menu-screen';

@@ -7,14 +7,16 @@ export const useCartProducts = () => {
   const { data: products } = useGetProducts();
 
   const mapProducts = useMemo(() => {
-    return Object.fromEntries(products.map((item) => [item.id, item]));
+    return Object.fromEntries(products!.map((item) => [item.id, item]));
   }, [products]);
 
   return useMemo(() => {
     const result: Array<{ count: number; data: Product }> = [];
 
     cart.forEach(({ id, count }) => {
-      if (!Object.prototype.hasOwnProperty.call(mapProducts, id)) return;
+      if (!Object.prototype.hasOwnProperty.call(mapProducts, id)) {
+        return;
+      }
 
       result.push({
         count,

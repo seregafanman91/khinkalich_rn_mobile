@@ -1,11 +1,11 @@
 import React, { type FC, useEffect, useRef, useState } from 'react';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Container } from '../../../components/container';
 import { Button } from '../../../ui/button';
 import { Counter } from '../../../ui/counter';
 import { DownButton } from '../../../ui/down-button';
+import { Modal } from '../../../ui/modal';
 import { COLORS } from '../../../constants/colors';
 import { MAIN_INDENT } from '../../../constants/layout';
 import { getFormatPrice } from '../../../utils/getFormatPrice';
@@ -57,7 +57,8 @@ export const ProductCard: FC<Props> = ({
   const totalPrice = price * count;
 
   return (
-    <BottomSheetModal
+    <Modal
+      handleIndicatorStyle={styles.indicatorStyles}
       footerComponent={() => (
         <Container style={styles.footerContainer}>
           <Button onPress={handleBuyPress} text={`Купить за ${getFormatPrice(totalPrice)}`} />
@@ -67,7 +68,7 @@ export const ProductCard: FC<Props> = ({
       snapPoints={SNAP_POINTS}
       onChange={handleBottomSheetModalChange}
     >
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={styles.safeAreaView}>
         <Container style={styles.wrapper}>
           <DownButton onPress={onClosed} style={styles.downButton} />
           <Image resizeMode="contain" style={styles.img} source={img} />
@@ -79,11 +80,17 @@ export const ProductCard: FC<Props> = ({
           </View>
         </Container>
       </SafeAreaView>
-    </BottomSheetModal>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
+  indicatorStyles: {
+    display: 'none',
+  },
+  safeAreaView: {
+    flex: 1,
+  },
   wrapper: {
     flex: 1,
     gap: 16,

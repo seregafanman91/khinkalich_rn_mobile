@@ -16,6 +16,7 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
+    "@react-navigation/native-stack": "^6.9.17",
     "immer": "^10.0.3",
     "install": "^0.13.0",
     "npm": "^10.2.3",
