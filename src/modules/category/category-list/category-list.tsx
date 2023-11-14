@@ -1,8 +1,8 @@
 import React, { type FC, useEffect, useRef } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { Chip } from '../../../ui/chip';
-import { MAIN_INDENT } from '../../../constants/layout';
 import { COLORS } from '../../../constants/colors';
+import { MAIN_INDENT } from '../../../constants/layout';
 
 export interface Data {
   categoryName: string;
@@ -15,19 +15,21 @@ interface Props {
   onItemPress: (nextVisibleCategoryId: string) => void;
 }
 
-const DEFAULT_MARGIN = 6;
+const DEFAULT_MARGIN = 10;
 
 export const CategoryList: FC<Props> = ({ data, visibleCategoryId, onItemPress }) => {
-  const ref = useRef(null);
+  const ref = useRef<FlatList | null>(null);
 
   const scrollToFirstCategoryId = (categoryId: string) => {
     const index = data.findIndex((item) => item.categoryId === categoryId);
 
-    ref.current.scrollToIndex({ index, viewPosition: 0.5 });
+    ref.current?.scrollToIndex({ index, viewPosition: 0.5 });
   };
 
   useEffect(() => {
-    if (!visibleCategoryId) return;
+    if (!visibleCategoryId) {
+      return;
+    }
 
     scrollToFirstCategoryId(visibleCategoryId);
   }, [data, visibleCategoryId]);
@@ -75,11 +77,8 @@ export const CategoryList: FC<Props> = ({ data, visibleCategoryId, onItemPress }
 
 const styles = StyleSheet.create({
   wrapper: {
+    paddingBottom: 8,
     backgroundColor: COLORS.backgroundPrimary,
-    paddingVertical: 8,
-    shadowOffset: { width: -1, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
     zIndex: 999,
   },
 });

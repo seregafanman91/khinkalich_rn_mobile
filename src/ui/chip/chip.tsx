@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
-import { TouchableOpacity, Text, StyleSheet, type TouchableOpacityProps } from 'react-native';
-import { hexToRgba } from '../../utils/hexToRgba';
+import { StyleSheet, Text, TouchableOpacity, type TouchableOpacityProps } from 'react-native';
 import { COLORS } from '../../constants/colors';
+import { hexToRgba } from '../../utils/hexToRgba';
 
 const enum Variant {
   primary = 'primary',
@@ -54,10 +54,11 @@ export const Chip: FC<Props> = ({ text, style, variant = Variant.primary, ...pro
 const styles = StyleSheet.create({
   wrapper: {
     paddingHorizontal: 20,
-    paddingVertical: 8,
+    paddingVertical: 6,
     borderRadius: 20,
   },
   text: {
     fontWeight: '500',
+    fontSize: 13,
   },
 });
