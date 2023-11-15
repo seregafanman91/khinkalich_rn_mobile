@@ -3,6 +3,7 @@ import { BlurView } from '@react-native-community/blur';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet } from 'react-native';
 import { CartScreen } from '../../screens/cart-screen';
+import { ContactsScreen } from '../../screens/contacts-screen';
 import { KhinIcon } from '../../ui/custom-icons/KhinIcon';
 import { Icon } from '../../ui/icon';
 import { selectCartCount, useCartStore } from '../../modules/cart';
@@ -54,7 +55,7 @@ export const MainNavigation = () => {
           title: 'Контакты',
         }}
         name="contacts"
-        component={MenuNavigation}
+        component={ContactsScreen}
       />
       <Tab.Screen
         options={{

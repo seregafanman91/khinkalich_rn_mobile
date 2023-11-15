@@ -1,7 +1,7 @@
 import React, { type FC, useCallback } from 'react';
 import { ListRenderItemInfo } from '@react-native/virtualized-lists/Lists/VirtualizedList';
-import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { Icon } from '../../../ui/icon';
+import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { NavButton } from '../../../components/nav-button';
 import { COLORS } from '../../../constants/colors';
 import { MAIN_INDENT } from '../../../constants/layout';
 import { City } from '../types/city';
@@ -15,12 +15,7 @@ export const CityList: FC<Props> = ({ onCityChange, values }) => {
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<City>) => {
       return (
-        <TouchableOpacity style={styles.button} onPress={() => onCityChange(item)}>
-          <Text style={styles.text} key={item.id}>
-            {item.name}
-          </Text>
-          <Icon style={styles.icon} name="navigate-next" />
-        </TouchableOpacity>
+        <NavButton text={item.name} onPress={() => onCityChange(item)} style={styles.navButton} />
       );
     },
     [onCityChange]
@@ -38,19 +33,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.backgroundPrimary,
   },
-  button: {
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+  navButton: {
     marginLeft: MAIN_INDENT,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingRight: MAIN_INDENT,
-  },
-  text: {
-    fontSize: 15,
-  },
-  icon: {
-    color: COLORS.textSecondary,
   },
 });

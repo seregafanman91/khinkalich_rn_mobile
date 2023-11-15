@@ -12,6 +12,8 @@ import { getLastDigit } from '../../../utils/getLastDigit';
 import { hexToRgba } from '../../../utils/hexToRgba';
 import { useCartProducts } from '../hooks/useCartProducts';
 
+const BUTTON_WRAP_HEIGHT = 48;
+
 export const CartScreenList = () => {
   const changeCart = useCartStore(selectCartChange);
   const data = useCartProducts();
@@ -37,9 +39,11 @@ export const CartScreenList = () => {
     }
   };
 
+  const bottomInset = bottomTabBarHeight + BUTTON_WRAP_HEIGHT;
+
   return (
-    <View style={[styles.wrapper, { marginBottom: bottomTabBarHeight }]}>
-      <ScrollView>
+    <View style={styles.wrapper}>
+      <ScrollView contentInset={{ bottom: bottomInset }}>
         <Container style={styles.header}>
           <Text style={styles.headerText}>{getCountOfProductsAndSum()}</Text>
         </Container>
@@ -48,7 +52,6 @@ export const CartScreenList = () => {
 
           return (
             <ProductCardSmall
-              style={isLast ? styles.lastCart : undefined}
               hasBorder={!isLast}
               key={dataItem.id}
               data={dataItem}
@@ -65,7 +68,11 @@ export const CartScreenList = () => {
         reducedTransparencyFallbackColor="white"
       >
         <Container>
-          <Button text={`Оформить заказ на ${displayTotalSum}`} />
+          <Button
+            style={{ marginBottom: bottomTabBarHeight }}
+            onPress={() => {}}
+            text={`Оформить заказ на ${displayTotalSum}`}
+          />
         </Container>
       </BlurView>
     </View>
@@ -82,9 +89,6 @@ export const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-  },
-  lastCart: {
-    marginBottom: 86,
   },
   buttonContainer: {
     position: 'absolute',

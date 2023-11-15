@@ -7,5 +7,6 @@ export const COLORS = {
   backgroundPrimary: '#ffffff',
   backgroundSecondary: '#fefefe',
   backgroundTertiary: '#edeef3',
+  iconPrimary: '#bebebe',
   border: '#f5f5f5',
 };

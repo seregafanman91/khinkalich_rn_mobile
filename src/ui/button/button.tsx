@@ -3,32 +3,59 @@ import { StyleSheet, Text, TouchableHighlight, type TouchableHighlightProps } fr
 import { COLORS } from '../../constants/colors';
 import { hexToRgba } from '../../utils/hexToRgba';
 
-interface Props extends TouchableHighlightProps {
-  text: string;
+const enum Variant {
+  primary = 'primary',
+  secondary = 'secondary',
 }
 
-const underlayColor = hexToRgba(COLORS.main, 0.6);
+interface Props extends TouchableHighlightProps {
+  text: string;
+  variant?: keyof typeof Variant;
+}
 
-export const Button: FC<Props> = ({ text, ...props }) => {
+const underlayColorPrimary = hexToRgba(COLORS.main, 0.6);
+const underlayColorSecondary = hexToRgba(COLORS.main, 0.1);
+
+export const Button: FC<Props> = ({ text, variant = Variant.primary, style, ...props }) => {
   return (
-    <TouchableHighlight {...props} underlayColor={underlayColor} style={styles.wrapper}>
-      <Text style={styles.text}>{text}</Text>
+    <TouchableHighlight
+      {...props}
+      underlayColor={variant === Variant.primary ? underlayColorPrimary : underlayColorSecondary}
+      style={[styles.wrapper, style, styles.wrapper[variant]]}
+    >
+      <Text style={[styles.text, textStyles[variant]]}>{text}</Text>
     </TouchableHighlight>
   );
 };
 
+const textStyles = StyleSheet.create({
+  primary: {
+    color: COLORS.textInvert,
+  },
+  secondary: {
+    color: COLORS.main,
+  },
+});
+
 const styles = StyleSheet.create({
   wrapper: {
     paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: COLORS.main,
+    paddingVertical: 13,
     fontSize: 40,
     borderRadius: 40,
+    backgroundColor: COLORS.main,
+
+    primary: {
+      backgroundColor: COLORS.main,
+    },
+
+    secondary: {
+      backgroundColor: hexToRgba(COLORS.main, 0.2),
+    },
   },
   text: {
     fontSize: 16,
     fontWeight: '500',
-    color: COLORS.textInvert,
     textAlign: 'center',
   },
 });
