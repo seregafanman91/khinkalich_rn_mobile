@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useGetProducts } from '../../product';
-import { type CategoryListData } from '../category-list';
 
 export const useCategoryList = () => {
   const { data } = useGetProducts();
@@ -10,7 +9,7 @@ export const useCategoryList = () => {
       return [];
     }
 
-    const obj: Partial<CategoryListData> = {};
+    const obj: { [key: string]: string } = {};
 
     data.forEach(({ categoryId, categoryName }) => {
       obj[categoryId] = categoryName;

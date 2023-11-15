@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Product, useGetProducts } from '../../../modules/product';
+import { useGetProducts } from '../../../modules/product';
 
 const enum Types {
   slider = 'slider',
@@ -19,12 +19,12 @@ const NAV_LIST = {
   type: Types.navList,
 };
 
-export const useMainList = (): MainListItem[] | undefined => {
+export const useMainList = (): MainListItem[] => {
   const { data } = useGetProducts();
 
   return useMemo(() => {
-    if (!data) {
-      return;
+    if (!data?.length) {
+      return [];
     }
 
     return [SLIDER, NAV_LIST, ...data.map((item) => ({ ...item, type: Types.product }))];

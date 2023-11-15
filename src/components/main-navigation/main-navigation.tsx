@@ -1,4 +1,5 @@
 import React from 'react';
+import { BlurView } from '@react-native-community/blur';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet } from 'react-native';
 import { CartScreen } from '../../screens/cart-screen';
@@ -6,7 +7,6 @@ import { KhinIcon } from '../../ui/custom-icons/KhinIcon';
 import { Icon } from '../../ui/icon';
 import { selectCartCount, useCartStore } from '../../modules/cart';
 import { COLORS } from '../../constants/colors';
-import { MAIN_INDENT } from '../../constants/layout';
 import { MenuNavigation } from '../menu-navigation';
 
 const Tab = createBottomTabNavigator();
@@ -15,12 +15,25 @@ export const MainNavigation = () => {
   const cartCount = useCartStore(selectCartCount);
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: { position: 'absolute' },
+        tabBarBackground: () => (
+          <BlurView
+            blurType="xlight"
+            style={styles.blur}
+            blurAmount={30}
+            reducedTransparencyFallbackColor="white"
+          />
+        ),
+      }}
+    >
       <Tab.Screen
         options={{
           headerShown: false,
           tabBarIcon: ({ color }: { color: string }) => <KhinIcon color={color} />,
           tabBarActiveTintColor: COLORS.main,
+          title: 'Меню',
         }}
         name="menu"
         component={MenuNavigation}
@@ -61,10 +74,7 @@ export const MainNavigation = () => {
 };
 
 const styles = StyleSheet.create({
-  headerLeft: {
-    marginLeft: MAIN_INDENT,
-  },
-  headerRight: {
-    marginRight: MAIN_INDENT,
+  blur: {
+    flex: 1,
   },
 });

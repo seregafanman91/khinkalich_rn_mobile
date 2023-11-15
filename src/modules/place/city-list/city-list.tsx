@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
     paddingRight: MAIN_INDENT,
   },
   text: {
-    fontSize: 14,
+    fontSize: 15,
   },
   icon: {
     color: COLORS.textSecondary,

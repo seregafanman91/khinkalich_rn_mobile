@@ -3,6 +3,8 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
+// AsyncStorage.clear();
+
 export interface PlaceState {
   cityId: string | null;
   placeId: string | null;

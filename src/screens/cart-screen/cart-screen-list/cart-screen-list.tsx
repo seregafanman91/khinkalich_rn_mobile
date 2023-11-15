@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { BlurView } from '@react-native-community/blur';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Container } from '../../../components/container';
 import { Button } from '../../../ui/button';
@@ -16,6 +17,8 @@ export const CartScreenList = () => {
   const data = useCartProducts();
   const cartCount = useCartStore(selectCartCount);
 
+  const bottomTabBarHeight = useBottomTabBarHeight();
+
   const totalSum = useMemo(() => {
     return data.reduce((acc, cur) => acc + cur.count * cur.data.price, 0);
   }, [data]);
@@ -23,8 +26,7 @@ export const CartScreenList = () => {
   const displayTotalSum = getFormatPrice(totalSum);
 
   const getCountOfProductsAndSum = () => {
-    const len = data.length;
-    const lastDigit = getLastDigit(len);
+    const lastDigit = getLastDigit(cartCount);
 
     if (lastDigit === 1) {
       return `${cartCount} товар на ${displayTotalSum}`;
@@ -36,7 +38,7 @@ export const CartScreenList = () => {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, { marginBottom: bottomTabBarHeight }]}>
       <ScrollView>
         <Container style={styles.header}>
           <Text style={styles.headerText}>{getCountOfProductsAndSum()}</Text>
